@@ -1,0 +1,22 @@
+{
+  "name": "app-ai-spec-builder",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "nuxt": "latest",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "latest",
+    "@google/generative-ai": "latest",
+    "zod": "latest",
+    "typescript": "latest"
+  }
+}
