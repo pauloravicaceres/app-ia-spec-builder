@@ -35,7 +35,7 @@ async function testConnection() {
     console.log("⏳ Conectando con los servidores de Google Gemini...");
     
     // Recomendación: Usar la familia flash para tareas rápidas y directas.
-    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash-lite" });
     
     const prompt = "¿Cuál es la capital de Francia?";
     console.log(`🗣️ Prompt enviado: "${prompt}"\n`);

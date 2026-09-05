@@ -14,9 +14,10 @@
     "vue": "latest"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "latest",
     "@google/generative-ai": "latest",
-    "zod": "latest",
-    "typescript": "latest"
+    "@nuxtjs/tailwindcss": "latest",
+    "@tailwindcss/typography": "^0.5.20",
+    "typescript": "latest",
+    "zod": "latest"
   }
 }

@@ -11,40 +11,51 @@
       </div>
       
       <!-- Componente para ingresar el pitch -->
-      <SpecInputPitch v-if="!specResult" @success="handleSpecGenerated" />
+      <SpecForm v-if="!specResult" @result="handleSpecGenerated" />
       
       <!-- Resultado generado por la IA -->
-      <div v-else class="max-w-4xl mx-auto mt-10 p-8 bg-white rounded-lg shadow-sm border border-gray-100 prose prose-blue lg:prose-lg">
+      <div v-else class="max-w-5xl mx-auto mt-10">
         <div class="flex justify-end mb-4">
-          <button @click="resetFlow" class="text-sm text-gray-500 hover:text-blue-600 underline">
-            Iniciar de nuevo
+          <button @click="resetFlow" class="text-sm font-medium text-gray-500 hover:text-blue-600 underline flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Nueva especificación
           </button>
         </div>
         
-        <div v-html="formattedSpec"></div>
+        <SpecOutput :spec="specResult" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 
-const specResult = ref('')
+const specResult = ref<any>(null)
 
-const formattedSpec = computed(() => {
-  // En un caso real usaríamos una librería como marked para parsear markdown
-  // Por ahora como MVP, inyectaremos texto base (se sugiere agregar npm i marked)
-  return specResult.value.replace(/\n/g, '<br>')
+onMounted(() => {
+  const saved = localStorage.getItem('latestSpec')
+  if (saved) {
+    try {
+      specResult.value = JSON.parse(saved)
+    } catch (e) {
+      localStorage.removeItem('latestSpec')
+    }
+  }
 })
 
-const handleSpecGenerated = (response: any) => {
-  if (response && response.data) {
-    specResult.value = response.data
-  }
+const handleSpecGenerated = (spec: any) => {
+  specResult.value = spec
+  localStorage.setItem('latestSpec', JSON.stringify(spec))
 }
 
 const resetFlow = () => {
-  specResult.value = ''
+  const confirmMsg = '¿Estás seguro de que deseas descartar esta especificación? Asegúrate de haberla copiado o descargado.'
+  if (window.confirm(confirmMsg)) {
+    specResult.value = null
+    localStorage.removeItem('latestSpec')
+  }
 }
 </script>
