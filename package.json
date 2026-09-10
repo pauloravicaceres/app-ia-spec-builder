@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "prepare": "husky"
+    "prepare": "is-ci || husky"
   },
   "dependencies": {
     "@clerk/nuxt": "^3.1.1",
@@ -20,6 +20,7 @@
     "@google/generative-ai": "latest",
     "@nuxtjs/tailwindcss": "latest",
     "@tailwindcss/typography": "^0.5.20",
+    "is-ci": "^4.1.0",
     "typescript": "latest",
     "zod": "latest"
   }
