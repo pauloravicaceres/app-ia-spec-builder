@@ -65,15 +65,38 @@ const copyToClipboard = async () => {
 }
 
 const downloadMarkdown = () => {
+  if (!props.spec) return
   const blob = new Blob([getMarkdownText()], { type: 'text/markdown' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = 'especificacion-tecnica.md'
+  
+  const date = new Date().toISOString().split('T')[0]
+  a.download = `especificacion-tecnica-${date}.md`
+  
   document.body.appendChild(a)
   a.click()
   document.body.removeChild(a)
   URL.revokeObjectURL(url)
+}
+
+const downloadPDF = async () => {
+  if (!props.spec) return
+  const element = document.getElementById('pdf-content')
+  if (!element) return
+  
+  const date = new Date().toISOString().split('T')[0]
+  const options = {
+    margin: [15, 15, 15, 15],
+    filename: `especificacion-tecnica-${date}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: 'css', avoid: ['section', '.border', 'li'] }
+  }
+  
+  const html2pdf = (await import('html2pdf.js')).default
+  html2pdf().set(options).from(element).save()
 }
 </script>
 
@@ -97,17 +120,29 @@ const downloadMarkdown = () => {
         </button>
         <button 
           @click="downloadMarkdown" 
+          :disabled="!props.spec"
           title="Descargar Markdown"
-          class="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center"
+          class="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
           </svg>
         </button>
+        <button 
+          @click="downloadPDF" 
+          :disabled="!props.spec"
+          title="Descargar PDF"
+          class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          </svg>
+        </button>
       </div>
     </div>
     
-    <!-- 1. Visión -->
+    <div id="pdf-content" class="space-y-8">
+      <!-- 1. Visión -->
     <section class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-8 shadow-sm">
       <div class="flex items-center space-x-3 mb-4">
         <div class="p-2 bg-blue-100 rounded-lg text-blue-600">
@@ -229,6 +264,7 @@ const downloadMarkdown = () => {
         <p>{{ spec.requirements }}</p>
       </div>
     </section>
+    </div>
 
     <!-- 8. Botones de Acción Finales -->
     <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4 pb-8">
@@ -246,12 +282,23 @@ const downloadMarkdown = () => {
       </button>
       <button 
         @click="downloadMarkdown" 
-        class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+        :disabled="!props.spec"
+        class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
         </svg>
         Descargar .md
+      </button>
+      <button 
+        @click="downloadPDF" 
+        :disabled="!props.spec"
+        class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+        </svg>
+        Descargar .pdf
       </button>
     </div>
   </div>

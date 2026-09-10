@@ -199,3 +199,10 @@ Para mantener el enfoque en la integración principal de Nuxt y Gemini, los sigu
 * **Fine-tuning del Modelo:** El sistema utilizará un modelo base (ej. Gemini 1.5 Flash) configurado a través de System Prompts y parámetros de generación (temperatura, top-k). No se realizarán entrenamientos de pesos del modelo con datos propios.
 * **Entradas Multimodales (Imágenes/Audio):** Aunque el SDK de Gemini lo soporta, la interfaz y la API no procesarán carga de archivos, análisis de imágenes por visión por computadora, ni transcripción de voz a texto. Las solicitudes estarán limitadas estrictamente a texto.
 * **Infraestructura de CI/CD Compleja:** El despliegue dependerá exclusivamente de la integración automatizada estándar de GitHub a Vercel. No se configurarán pipelines paralelos para pruebas de carga o análisis estático avanzado en GitHub Actions.
+
+
+### Features
+
+- Exportar como Markdown
+- Exportar como PDF
+- Historial
