@@ -205,4 +205,5 @@ Para mantener el enfoque en la integración principal de Nuxt y Gemini, los sigu
 
 - Exportar como Markdown
 - Exportar como PDF
-- Historial
+- Historial de specs
+- Login con Clerk

@@ -14,7 +14,17 @@ const MAX_REQUESTS = 5
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
 
 export default defineEventHandler(async (event) => {
-  // 1. Rate Limiting Check
+  // 1. Clerk Authentication Check
+  const auth = (event.context as any).auth
+  if (!auth || !auth.userId) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: 'Unauthorized',
+      message: 'Debes iniciar sesión para generar especificaciones.'
+    })
+  }
+
+  // 2. Rate Limiting Check
   const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown'
   const now = Date.now()
   

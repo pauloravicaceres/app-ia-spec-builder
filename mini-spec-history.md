@@ -1,11 +1,4 @@
-Analiza el proyecto `app-ai-spec-builder`.
-
-Quiero definir una nueva feature:
-
-## Feature: Historial de specs
-
-**Qué hace:**
-
+## 1. Qué hace
 Permite guardar y gestionar localmente las specs generadas por el usuario para que puedan ser consultadas y recuperadas posteriormente.
 
 Cada spec guardada debe conservar como mínimo:
@@ -17,12 +10,10 @@ El historial debe mostrarse en un panel lateral desde el cual el usuario pueda r
 
 La información debe persistirse mediante `localStorage` para mantenerla disponible entre sesiones en el mismo navegador.
 
-**Por qué:**
-
+## 2. Por qué
 Evita que el usuario pierda las specs generadas al recargar la página, cerrar la pestaña o finalizar la sesión, y permite recuperar trabajos anteriores sin tener que generarlos nuevamente.
 
-**Criterios de aceptación:**
-
+## 3. Criterios de aceptación
 - [ ] El sistema guarda automáticamente una spec generada en el historial.
 - [ ] Cada registro del historial conserva el nombre del proyecto, la fecha y el contenido completo de la spec.
 - [ ] El historial se muestra en un panel lateral accesible desde la aplicación.
@@ -38,8 +29,7 @@ Evita que el usuario pierda las specs generadas al recargar la página, cerrar l
 - [ ] La funcionalidad no requiere autenticación ni conexión con un servicio backend.
 - [ ] Las funcionalidades existentes de generación y exportación de specs continúan funcionando correctamente.
 
-**No incluye:**
-
+## 4. No incluye
 - Sincronización de specs entre dispositivos o navegadores.
 - Autenticación o gestión de usuarios.
 - Persistencia en backend o base de datos.
@@ -48,5 +38,3 @@ Evita que el usuario pierda las specs generadas al recargar la página, cerrar l
 - Compartición de specs con otros usuarios.
 - Control de versiones o historial de cambios de una misma spec.
 - Exportación adicional de las specs; la exportación Markdown y PDF se gestiona mediante sus funcionalidades correspondientes.
-
-Guarda únicamente la mini-spec generada como archivo Markdown en la raíz del proyecto.

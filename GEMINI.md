@@ -11,9 +11,10 @@
 
 ## 2. Core Architectural Principles & Constraints
 
-### 2.1 No Authentication
-- The application does **not** include user authentication (no login, no registration, no user accounts, no JWT/OAuth/sessions).
-- All features and flows are immediately accessible to anyone opening the application.
+### 2.1 User Authentication (Clerk)
+- The application integrates Clerk for user authentication to protect the interface and the generation API endpoint against unauthorized resource usage.
+- Public routes: `/sign-in` and `/sign-up`. All other routes and `/api/generate-spec` require an active user session.
+- No internal user database or custom session stores are used; Clerk handles identity as a managed service.
 
 ### 2.2 No Database
 - The application does **not** connect to any persistent external database (no PostgreSQL, MySQL, MongoDB, SQLite, Prisma, Drizzle, or ORMs).
@@ -126,7 +127,7 @@ The core engine transforms a high-level product idea into structured technical a
 ## 7. Antigravity Agent Guidelines
 
 When operating on this codebase:
-1. **Adhere to Constraints**: NEVER add authentication libraries, user session stores, databases, or ORMs.
+1. **Adhere to Constraints**: User authentication is managed strictly via Clerk. NEVER add internal databases, ORMs, or custom user tables.
 2. **Preserve English in Code**: All code, identifiers, comments, types, and commits must remain strictly in English.
 3. **Keep Logic in Nitro**: Keep AI prompts, Gemini SDK calls, and secret handling inside `server/api/` and `server/utils/`.
 4. **Maintain Simplicity**: Build clean, modular, and maintainable Vue components.
